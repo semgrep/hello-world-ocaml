@@ -1,7 +1,7 @@
 (test
  (name hello)
  (libraries hello)
- (inline_tests)
+ ;(inline_tests) <- this does not work in a (test stanza), it works only in (library)
  (preprocess
   (pps ppx_inline_test)))
 

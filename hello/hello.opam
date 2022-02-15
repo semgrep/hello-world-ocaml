@@ -1,0 +1,22 @@
+opam-version: "2.0"
+name: "hello-world"
+version: "0.1.0"
+synopsis: ""
+description: """
+Hello World
+"""
+
+maintainer: "Yoann Padioleau <pad@r2c.dev>"
+authors: [ "Yoann Padioleau <pad@r2c.dev>" ]
+license: "LGPL-2.1"
+homepage: "http://google.com"
+dev-repo: "git+https://github.com/returntocorp/hello-world-ocaml"
+bug-reports: "https://github.com/returntocorp/hello-world-ocaml/issues"
+
+depends: [
+  "dune" {>= "2.9.0" }
+  "ppxlib" {= "0.20.0" }
+  "ppx_inline_test"
+]
+
+build: [make]
