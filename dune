@@ -1,8 +1,7 @@
 
 ; Using dirs has a few advantages:
-; - it speedups dune because dune does not need to copy also all of tests/
-; - it prevents dune to generate an error because of the bin/ symlink
-;   which at first is broken
+; - it speedups dune because it does not need to copy also all of tests/
+;   which is usually big on big repos
 (dirs
    src
 )
