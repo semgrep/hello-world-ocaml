@@ -5,9 +5,8 @@ local opam_switch = '4.14.0';
 // ----------------------------------------------------------------------------
 // The job
 // ----------------------------------------------------------------------------
-local job = {
-  'runs-on': 'ubuntu-latest',
-  steps: [
+local job = lib.os_matrix(oss=['ubuntu-latest'], steps =
+  [
     lib.checkout_step,
     // this must be done after the checkout as opam installs itself
     // locally in the project folder
@@ -43,8 +42,8 @@ local job = {
         make test
       |||,
     },
-  ],
-};
+  ])
+;
 
 // ----------------------------------------------------------------------------
 // The Workflow

@@ -55,4 +55,14 @@ local cache_opam = {
       ],
     },
   },
+  // For making matrix jobs, i.e. one job running on multiple OSes.
+  os_matrix(oss=['ubuntu-latest', 'macos-latest', 'windows-latest'], steps): {
+    strategy: {
+      matrix: {
+        os: oss,
+      },
+    },
+    'runs-on': '${{ matrix.os }}',
+    steps: steps,
+  },
 }
