@@ -1,5 +1,5 @@
 (test
- (name hello)
+ (name Tests)
  (libraries hello)
  ;(inline_tests) <- this does not work in a (test stanza), it works only in (library)
  (preprocess
