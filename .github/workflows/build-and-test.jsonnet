@@ -32,15 +32,13 @@ local job = lib.os_matrix(steps=
     {
       name: 'Build',
       run: |||
-        eval $(opam env)
-        make
+         make
       |||,
     },
     {
       name: 'Test',
       run: |||
-        eval $(opam env)
-        make test
+         make test
       |||,
     },
   ])
