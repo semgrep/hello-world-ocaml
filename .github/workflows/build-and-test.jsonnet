@@ -1,6 +1,6 @@
 local lib = import 'lib.libsonnet';
 
-local opam_switch = '5.2.0';
+local opam_switch = '4.14.0';
 
 // ----------------------------------------------------------------------------
 // The job
@@ -24,8 +24,8 @@ local job = {
     ),
     {
       name: 'Install dependencies',
+      // TODO: rely on opam depext?
       run: |||
-        sudo make install-deps-UBUNTU
         make install-deps
       |||,
     },
