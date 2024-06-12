@@ -1,5 +1,4 @@
 opam-version: "2.0"
-name: "hello-world"
 version: "0.2.0"
 synopsis: "Hello world, in OCaml"
 description: """
@@ -10,13 +9,31 @@ maintainer: "Yoann Padioleau <pad@semgrep.com>"
 authors: [ "Yoann Padioleau <pad@semgrep.com>" ]
 license: "LGPL-2.1"
 homepage: "http://hello-world-ocaml.com"
-dev-repo: "git+https://github.com/semgrep/hello-world-ocaml"
 bug-reports: "https://github.com/emgrep/hello-world-ocaml/issues"
 
 depends: [
+  "ocaml" {>= "4.14.0"}
   "dune"
+  "atdgen"
+  "yojson" {>= "2.0.0"}
   "ppxlib"
+  "ppx_deriving"
   "ppx_inline_test"
 ]
 
-build: [make]
+build: [
+  ["dune" "subst"] {dev}
+  [
+    "dune"
+    "build"
+    "-p"
+    name
+    "-j"
+    jobs
+    "@install"
+    "@runtest" {with-test}
+    "@doc" {with-doc}
+  ]
+]
+dev-repo: "git+https://github.com/semgrep/hello-world-ocaml"
+
