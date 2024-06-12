@@ -1,1 +1,1 @@
-let () = print_endline Hello.Msg.greeting
+let () = print_endline Msg.greeting

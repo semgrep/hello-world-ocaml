@@ -1,5 +1,6 @@
 (library
  (name hello)
+ (wrapped false)
  (inline_tests)
  (preprocess
   (pps ppx_inline_test)))

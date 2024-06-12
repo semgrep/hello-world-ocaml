@@ -1,11 +1,34 @@
+###############################################################################
+# Build (and clean) targets
+###############################################################################
 
-#alt: could dune build _build/install/default/bin/main.exe
+# First (and default) target
+default: all
+
+#alt: could dune build _build/install/default/bin/hello instead
+# which would be faster on big a big repo with many targets
 all:
 	dune build
-test:
-	dune runtest
+
 clean:
 	dune clean
+
+###############################################################################
+# Install targets
+###############################################################################
+install:
+	echo TODO
+
+###############################################################################
+# Test target
+###############################################################################
+
+test:
+	dune runtest
+
+###############################################################################
+# Developer targets
+###############################################################################
 
 setup:
 	opam install --deps-only .
