@@ -29,6 +29,9 @@ local job = lib.os_matrix(steps=
         make install-deps
       |||,
     },
+    // alt: use `eval $(opam env)`, but this requires bash (windows pwsh fails),
+    // and I get some PATH issue on Windows (need add CYGWIN_ROOT_BIN to PATH)
+    // so simpler to use `opam exec ...`
     {
       name: 'Build',
       run: |||
