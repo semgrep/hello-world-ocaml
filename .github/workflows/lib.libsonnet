@@ -63,6 +63,13 @@ local cache_opam = {
       },
     },
     'runs-on': '${{ matrix.os }}',
+    defaults: {
+    run: {
+      // Windows GHA runners default to pwsh (PowerShell) but we want bash
+      // to be consistent.
+      shell: 'bash',
+    },
+  },
     steps: steps,
   },
 }
