@@ -5,7 +5,8 @@ local opam_switch = '4.14.0';
 // ----------------------------------------------------------------------------
 // The job
 // ----------------------------------------------------------------------------
-local job = lib.os_matrix(oss=['ubuntu-latest', 'macos-latest'], steps =
+// oses are: ubuntu, macos, windows
+local job = lib.os_matrix(steps=
   [
     lib.checkout_step,
     // this must be done after the checkout as opam installs itself
@@ -14,7 +15,7 @@ local job = lib.os_matrix(oss=['ubuntu-latest', 'macos-latest'], steps =
       uses: 'ocaml/setup-ocaml@v2',
       with: {
         'ocaml-compiler': opam_switch,
-        //'opam-depext': false,
+        //'opam-depext': true,
       },
     },
     lib.cache_opam.step(
