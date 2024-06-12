@@ -1,0 +1,6 @@
+(library
+ (public_name hello-world.core)
+ (name hello_core)
+ (wrapped false)
+ (preprocess
+  (pps ppx_deriving.show)))
