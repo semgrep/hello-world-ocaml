@@ -26,7 +26,7 @@ local job = lib.os_matrix(steps=
       name: 'Install dependencies',
       // TODO: rely on opam depext?
       run: |||
-        make install-deps
+        make setup
       |||,
     },
     // alt: use `eval $(opam env)`, but this requires bash (windows pwsh fails),

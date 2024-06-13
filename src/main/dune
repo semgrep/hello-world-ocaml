@@ -1,14 +1,9 @@
 (executable
  (name main)
- (libraries
-    hello-world.lib
- )
-)
+ (libraries hello-world.lib))
 
 (install
  (package hello-world)
  (section bin)
  (files
-   (main.exe as hello)
- )
-)
+  (main.exe as hello-world)))

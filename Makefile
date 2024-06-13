@@ -17,7 +17,7 @@ clean:
 # Install targets
 ###############################################################################
 install:
-	echo TODO
+	dune install
 
 ###############################################################################
 # Test target
@@ -31,15 +31,50 @@ test:
 # Dependencies
 ###############################################################################
 
-#TODO? rely on depext for system libs?
-install-deps:
-	opam install --deps-only .
+# create a switch with only the dependencies
+# See: https://ocaml.org/docs/opam-switch-introduction#local-switches
+setup:
+	opam switch create . --deps-only -t -d -y
 
-#TODO: nix?
+# update the dependencies
+update:
+	opam install . --deps-only -t -d -y
+###############################################################################
+# Nix targets
+###############################################################################
+
+# The finger stuff here is weird but it's so we can get the user shell and run
+# it in the nix shell. I.e. /usr/bin/zsh or /usr/bin/fish
+# It's really weird because by default makefile overrides $SHELL so this is the
+# only way to get it
+shell:
+	$(eval USER_SHELL := $(shell finger ${USER} | grep 'Shell:*' | cut -f3 -d ":"))
+	nix develop -c $(USER_SHELL)
+
+nix-build:
+	nix build
+
+nix-run:
+	nix run
+
+nix-fmt:
+	nix fmt
+
+nix-check: nix-check-flake
+	nix flake check
+
+# verbose check for CI
+nix-check-verbose: nix-check-flake
+	nix flake check -L
 
 ###############################################################################
 # Developer targets
 ###############################################################################
+format:
+	dune fmt
 
-setup:
-	opam install --deps-only .
+utop:
+	dune utop
+
+doc:
+	dune build @doc

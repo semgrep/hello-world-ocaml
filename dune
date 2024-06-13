@@ -1,8 +1,5 @@
-
 ; Using dirs has a few advantages:
 ; - it speedups dune because it does not need to copy also all of tests/
 ;   which is usually big on big repos
-(dirs
-   src
-)
 
+(dirs src)

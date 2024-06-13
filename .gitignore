@@ -1,1 +1,11 @@
+# build directory
 /_build/
+
+# opam switch
+_opam
+
+# nix
+result
+
+#direnv
+.direnv

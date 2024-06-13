@@ -1,9 +1,6 @@
 (test
  (name Tests)
- (libraries
-   hello-world.lib
- )
+ (libraries hello-world.lib)
  ;(inline_tests) <- this does not work in a (test stanza), it works only in (library)
  (preprocess
   (pps ppx_inline_test)))
-
