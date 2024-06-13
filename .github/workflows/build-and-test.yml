@@ -21,7 +21,7 @@ jobs:
           path: _opam
       - name: Install dependencies
         run: |
-          make install-deps
+          make setup
       - name: Build
         run: |
           opam exec -- make

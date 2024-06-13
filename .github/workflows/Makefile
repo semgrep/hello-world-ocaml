@@ -1,4 +1,4 @@
-OBJS = build-and-test.yml build-and-test-nix.yml
+OBJS = build-and-test.yml build-test-nix.yml
 
 # Files containing code imported in other files
 LIBS= lib.libsonnet
