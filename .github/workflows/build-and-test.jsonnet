@@ -25,6 +25,8 @@ local job = lib.os_matrix(steps=
     {
       name: 'Install dependencies',
       // TODO: rely on opam depext?
+      // since we already have the cache of the switch potentially in _opam we
+      // only need to update the switch
       run: |||
         make update
       |||,

@@ -12,7 +12,7 @@ authors: [
 homepage: "https://github.com/semgrep/hello-world-ocaml"
 bug-reports: "https://github.com/semgrep/hello-world-ocaml/issues"
 depends: [
-  "dune" {>= "3.14"}
+  "dune" {>= "3.7"}
   "ocaml" {>= "4.14.0"}
   "atdgen"
   "yojson" {>= "2.0.0"}
