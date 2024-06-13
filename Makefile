@@ -30,13 +30,12 @@ test:
 ###############################################################################
 # Dependencies
 ###############################################################################
-
-# create a switch with only the dependencies
+# create a switch with only the dependencies in _opam
 # See: https://ocaml.org/docs/opam-switch-introduction#local-switches
 setup:
 	opam switch create . --deps-only -t -d -y
 
-# update the dependencies
+# update the dependencies in the switch
 update:
 	opam install . --deps-only -t -d -y
 ###############################################################################
@@ -64,7 +63,7 @@ nix-check: nix-check-flake
 	nix flake check
 
 # verbose check for CI
-nix-check-verbose: nix-check-flake
+nix-check-verbose:
 	nix flake check -L
 
 ###############################################################################
