@@ -15,13 +15,13 @@ local job = lib.os_matrix(oss=['ubuntu-latest', 'macos-latest', 'windows-latest'
       uses: 'ocaml/setup-ocaml@v2',
       with: {
         'ocaml-compiler': opam_switch,
-	// This is for 'windows-latest', otherwise can't install recent packages
-	// like dune 3.7 or ocamlformat 0.26.1
+        // This is for 'windows-latest', otherwise can't install recent packages
+        // like dune 3.7 or ocamlformat 0.26.1
         // We switch from fdopen's opam mingw repo to the official one.
-	// Hopefully it works fine with other OSes too.
+        // Hopefully it works fine with other OSes too.
         // the opam-repository-mingw has the "sunset" branch because it should
         // soon be unecessary once opam 2.2 is released.
-	'opam-repositories': |||
+        'opam-repositories': |||
            opam-repository-mingw: https://github.com/ocaml-opam/opam-repository-mingw.git#sunset
            default: https://github.com/ocaml/opam-repository.git
         |||,
@@ -48,6 +48,7 @@ local job = lib.os_matrix(oss=['ubuntu-latest', 'macos-latest', 'windows-latest'
         echo '-- make --version --'
         make --version
         echo '-- opam --version --'
+        export PATH="${CYGWIN_ROOT_BIN}:${PATH}"
         opam --version
         # ocamlc -v
       |||,
@@ -61,19 +62,21 @@ local job = lib.os_matrix(oss=['ubuntu-latest', 'macos-latest', 'windows-latest'
         make update
       |||,
     },
-    // alt: use `eval $(opam env)`, but this requires bash (windows pwsh fails),
-    // and I get some PATH issue on Windows (need add CYGWIN_ROOT_BIN to PATH)
-    // so simpler to use `opam exec ...`
+    // eval $(opam env) requires bash (windows pwsh would fail)
+    // alt: use `opam exec --`
     {
       name: 'Build',
       run: |||
-         opam exec -- make
+          export PATH="${CYGWIN_ROOT_BIN}:${PATH}"
+          eval $(opam env)
       |||,
     },
     {
       name: 'Test',
       run: |||
-         opam exec -- make test
+         export PATH="${CYGWIN_ROOT_BIN}:${PATH}"
+         eval $(opam env)
+         make test
       |||,
     },
   ])
