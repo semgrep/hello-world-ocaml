@@ -37,7 +37,8 @@ local job = lib.os_matrix(oss=['ubuntu-latest', 'macos-latest', 'windows-latest'
       name: 'Debugging the environment',
       // - ocamlc is commented because it's available only under opam,
       //   so one needs eval $(opam env) to make it accessible
-      // - opam is commented because ???
+      // - opam was commented because on windows is not by default
+      //   in the PATH (need the CYGWIN_ROOT_BIN adjustment)
       run: |||
         echo '-- native env --'
         env
@@ -62,8 +63,12 @@ local job = lib.os_matrix(oss=['ubuntu-latest', 'macos-latest', 'windows-latest'
         make update
       |||,
     },
-    // eval $(opam env) requires bash (windows pwsh would fail)
-    // alt: use `opam exec --`
+    // 
+    // alt:
+    //  - eval $(opam env) requires bash (windows pwsh would fail),
+    //    and requires opam in the PATH (hence CYGWIN_ROOT_BIN adjustment)
+    //  - `opam exec -- dune ...` requires opam in the PATH but not
+    //     make
     {
       name: 'Build',
       run: |||
@@ -71,6 +76,7 @@ local job = lib.os_matrix(oss=['ubuntu-latest', 'macos-latest', 'windows-latest'
           opam env
           eval $(opam env)
           set
+          export PATH="/c/mingw64/bin/make:${PATH}"
           make
       |||,
     },
@@ -79,6 +85,7 @@ local job = lib.os_matrix(oss=['ubuntu-latest', 'macos-latest', 'windows-latest'
       run: |||
          export PATH="${CYGWIN_ROOT_BIN}:${PATH}"
          eval $(opam env)
+         export PATH="/c/mingw64/bin/make:${PATH}"
          make test
       |||,
     },

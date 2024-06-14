@@ -45,11 +45,13 @@ jobs:
           opam env
           eval $(opam env)
           set
+          export PATH="/c/mingw64/bin/make:${PATH}"
           make
       - name: Test
         run: |
           export PATH="${CYGWIN_ROOT_BIN}:${PATH}"
           eval $(opam env)
+          export PATH="/c/mingw64/bin/make:${PATH}"
           make test
     strategy:
       matrix:
