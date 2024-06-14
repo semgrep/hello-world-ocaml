@@ -37,13 +37,14 @@ jobs:
           opam --version
           echo '-- ocamlc -v --'
           opam exec -- ocamlc -v
+          echo '-- opam exec -- env --'
+          opam exec -- env
       - name: Install dependencies
         run: |
           make update
       - name: Build
         run: |
           export PATH="${CYGWIN_ROOT_BIN}:${PATH}"
-          opam exec -- env
           opam exec -- make
       - name: Test
         run: |

@@ -6,7 +6,7 @@ local opam_switch = '4.14.0';
 // The job
 // ----------------------------------------------------------------------------
 // oses in the matrix are: ubuntu-latest, macos-latest, and windows-latest
-local job = lib.os_matrix(oss=['ubuntu-latest', 'macos-latest', 'windows-latest'], steps=
+local job = lib.os_matrix(steps=
   [
     lib.checkout_step,
     // this must be done after the checkout as opam installs itself
@@ -25,7 +25,6 @@ local job = lib.os_matrix(oss=['ubuntu-latest', 'macos-latest', 'windows-latest'
            opam-repository-mingw: https://github.com/ocaml-opam/opam-repository-mingw.git#sunset
            default: https://github.com/ocaml/opam-repository.git
         |||,
-
         //'opam-depext': true,
       },
     },
@@ -36,9 +35,9 @@ local job = lib.os_matrix(oss=['ubuntu-latest', 'macos-latest', 'windows-latest'
     {
       name: 'Debugging the environment',
       // - ocamlc is available only under opam,
-      //   so one needs eval $(opam env) (or opam exec) to make it accessible
-      // - opam was commented because on windows it is not by default
-      //   in the PATH (it needs the CYGWIN_ROOT_BIN adjustment)
+      //   so one needs `eval $(opam env)` or `opam exec` to make it accessible
+      // - opam is not in the PATH by default under windows
+      //   (it needs the CYGWIN_ROOT_BIN adjustment)
       run: |||
         echo '-- native env --'
         env
@@ -53,6 +52,8 @@ local job = lib.os_matrix(oss=['ubuntu-latest', 'macos-latest', 'windows-latest'
         opam --version
         echo '-- ocamlc -v --'
         opam exec -- ocamlc -v
+        echo '-- opam exec -- env --'
+        opam exec -- env
       |||,
     },
     {
@@ -66,16 +67,15 @@ local job = lib.os_matrix(oss=['ubuntu-latest', 'macos-latest', 'windows-latest'
     },
     // 
     // alt:
-    //  - eval $(opam env) requires bash (windows pwsh would fail),
+    //  - `eval $(opam env)` but it requires bash (windows pwsh would fail),
     //    and requires opam in the PATH (hence CYGWIN_ROOT_BIN adjustment),
-    //    but seems to be buggy under windows in GHA and truncate t
-    //  - `opam exec -- dune ...` requires opam in the PATH but not
-    //     make
+    //    but seems to be buggy under windows in GHA and truncate the PATH
+    //  - `opam exec -- ...` seems to work better under windows
+    //    (as long as it's in the PATH)
     {
       name: 'Build',
       run: |||
           export PATH="${CYGWIN_ROOT_BIN}:${PATH}"
-          opam exec -- env
           opam exec -- make
       |||,
     },
