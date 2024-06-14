@@ -23,6 +23,19 @@ local job = lib.os_matrix(steps=
       path="_opam",
     ),
     {
+      name: 'Debugging the environment',
+      run: |||
+        echo native env
+        env
+        echo env under make
+        make env
+        which make
+        make --version
+        opam --version
+        ocamlc -v
+      |||,
+    },
+    {
       name: 'Install dependencies',
       // TODO: rely on opam depext?
       // since we already have the cache of the switch potentially in _opam we

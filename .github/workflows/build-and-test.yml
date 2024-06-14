@@ -19,6 +19,16 @@ jobs:
         with:
           key: ${{ runner.os }}-${{ runner.arch }}-opam-deps-4.14.0-build-test-${{ hashFiles('hello-world.opam') }}
           path: _opam
+      - name: Debugging the environment
+        run: |
+          echo native env
+          env
+          echo env under make
+          make env
+          which make
+          make --version
+          opam --version
+          ocamlc -v
       - name: Install dependencies
         run: |
           make update
