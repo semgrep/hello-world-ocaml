@@ -42,7 +42,10 @@ jobs:
       - name: Build
         run: |
           export PATH="${CYGWIN_ROOT_BIN}:${PATH}"
+          opam env
           eval $(opam env)
+          set
+          make
       - name: Test
         run: |
           export PATH="${CYGWIN_ROOT_BIN}:${PATH}"

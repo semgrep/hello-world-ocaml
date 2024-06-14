@@ -68,7 +68,10 @@ local job = lib.os_matrix(oss=['ubuntu-latest', 'macos-latest', 'windows-latest'
       name: 'Build',
       run: |||
           export PATH="${CYGWIN_ROOT_BIN}:${PATH}"
+          opam env
           eval $(opam env)
+          set
+          make
       |||,
     },
     {
