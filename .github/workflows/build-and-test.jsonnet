@@ -28,7 +28,7 @@ local job = lib.os_matrix(steps=
         echo native env
         env
         echo env under make
-        make env
+        make show_env
         which make
         make --version
         opam --version

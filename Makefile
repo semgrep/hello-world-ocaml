@@ -1,12 +1,12 @@
 ###############################################################################
-# Build (and clean) targets
+# Build and clean targets
 ###############################################################################
 
 # First (and default) target
 default: all
 
-#alt: could dune build _build/install/default/bin/hello instead
-# which would be faster on big a big repo with many targets
+#alt: could use `dune build _build/install/default/bin/hello` instead
+# which would be faster on a big repo with many files
 all:
 	dune build
 
@@ -38,6 +38,7 @@ setup:
 # update the dependencies in the switch
 update:
 	opam install . --deps-only -t -d -y
+
 ###############################################################################
 # Nix targets
 ###############################################################################
@@ -69,6 +70,7 @@ nix-check-verbose:
 ###############################################################################
 # Developer targets
 ###############################################################################
+
 format:
 	dune fmt
 
@@ -77,3 +79,7 @@ utop:
 
 doc:
 	dune build @doc
+
+# to help debug PATH and other env vars issues in different OSes
+show_env:
+	env
