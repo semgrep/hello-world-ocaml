@@ -15,6 +15,17 @@ local job = lib.os_matrix(oss=['ubuntu-latest', 'macos-latest', 'windows-latest'
       uses: 'ocaml/setup-ocaml@v2',
       with: {
         'ocaml-compiler': opam_switch,
+	// This is for 'windows-latest', otherwise can't install recent packages
+	// like dune 3.7 or ocamlformat 0.26.1
+        // We switch from fdopen's opam mingw repo to the official one.
+	// Hopefully it works fine with other OSes too.
+        // the opam-repository-mingw has the "sunset" branch because it should
+        // soon be unecessary once opam 2.2 is released.
+	'opam-repositories': |||
+           opam-repository-mingw: https://github.com/ocaml-opam/opam-repository-mingw.git#sunset
+           default: https://github.com/ocaml/opam-repository.git
+        |||,
+
         //'opam-depext': true,
       },
     },

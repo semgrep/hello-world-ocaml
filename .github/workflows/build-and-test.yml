@@ -12,6 +12,9 @@ jobs:
       - uses: ocaml/setup-ocaml@v2
         with:
           ocaml-compiler: 4.14.0
+          opam-repositories: |
+            opam-repository-mingw: https://github.com/ocaml-opam/opam-repository-mingw.git#sunset
+            default: https://github.com/ocaml/opam-repository.git
       - env:
           SEGMENT_DOWNLOAD_TIMEOUT_MINS: 2
         name: Set GHA cache for OPAM in _opam
