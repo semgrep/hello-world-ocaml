@@ -35,10 +35,10 @@ local job = lib.os_matrix(oss=['ubuntu-latest', 'macos-latest', 'windows-latest'
     ),
     {
       name: 'Debugging the environment',
-      // - ocamlc is commented because it's available only under opam,
-      //   so one needs eval $(opam env) to make it accessible
-      // - opam was commented because on windows is not by default
-      //   in the PATH (need the CYGWIN_ROOT_BIN adjustment)
+      // - ocamlc is available only under opam,
+      //   so one needs eval $(opam env) (or opam exec) to make it accessible
+      // - opam was commented because on windows it is not by default
+      //   in the PATH (it needs the CYGWIN_ROOT_BIN adjustment)
       run: |||
         echo '-- native env --'
         env
@@ -51,7 +51,8 @@ local job = lib.os_matrix(oss=['ubuntu-latest', 'macos-latest', 'windows-latest'
         echo '-- opam --version --'
         export PATH="${CYGWIN_ROOT_BIN}:${PATH}"
         opam --version
-        # ocamlc -v
+        echo '-- ocamlc -v --'
+        opam exec -- ocamlc -v
       |||,
     },
     {
@@ -66,30 +67,21 @@ local job = lib.os_matrix(oss=['ubuntu-latest', 'macos-latest', 'windows-latest'
     // 
     // alt:
     //  - eval $(opam env) requires bash (windows pwsh would fail),
-    //    and requires opam in the PATH (hence CYGWIN_ROOT_BIN adjustment)
+    //    and requires opam in the PATH (hence CYGWIN_ROOT_BIN adjustment),
+    //    but seems to be buggy under windows in GHA and truncate t
     //  - `opam exec -- dune ...` requires opam in the PATH but not
     //     make
     {
       name: 'Build',
       run: |||
-          which make
-          export PATH="${CYGWIN_ROOT_BIN}:${PATH}"
-          which make
-          opam env
-          eval $(opam env)
-          set
-          export PATH="/c/mingw64/bin/make:${PATH}"
-          which make
-          make
+          opam exec -- env
+          opam exec -- make
       |||,
     },
     {
       name: 'Test',
       run: |||
-         export PATH="${CYGWIN_ROOT_BIN}:${PATH}"
-         eval $(opam env)
-         export PATH="/c/mingw64/bin/make:${PATH}"
-         make test
+         opam exec -- make test
       |||,
     },
   ])

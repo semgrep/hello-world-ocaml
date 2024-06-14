@@ -35,27 +35,18 @@ jobs:
           echo '-- opam --version --'
           export PATH="${CYGWIN_ROOT_BIN}:${PATH}"
           opam --version
-          # ocamlc -v
+          echo '-- ocamlc -v --'
+          opam exec -- ocamlc -v
       - name: Install dependencies
         run: |
           make update
       - name: Build
         run: |
-          which make
-          export PATH="${CYGWIN_ROOT_BIN}:${PATH}"
-          which make
-          opam env
-          eval $(opam env)
-          set
-          export PATH="/c/mingw64/bin/make:${PATH}"
-          which make
-          make
+          opam exec -- env
+          opam exec -- make
       - name: Test
         run: |
-          export PATH="${CYGWIN_ROOT_BIN}:${PATH}"
-          eval $(opam env)
-          export PATH="/c/mingw64/bin/make:${PATH}"
-          make test
+          opam exec -- make test
     strategy:
       matrix:
         os:
