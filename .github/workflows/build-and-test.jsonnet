@@ -5,8 +5,8 @@ local opam_switch = '4.14.0';
 // ----------------------------------------------------------------------------
 // The job
 // ----------------------------------------------------------------------------
-// oses in the matrix are: ubuntu, macos, and windows
-local job = lib.os_matrix(oss=['ubuntu', 'macos'], steps=
+// oses in the matrix are: ubuntu-latest, macos-latest, and windows-latest
+local job = lib.os_matrix(oss=['ubuntu-latest', 'macos-latest'], steps=
   [
     lib.checkout_step,
     // this must be done after the checkout as opam installs itself

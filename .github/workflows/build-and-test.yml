@@ -41,8 +41,8 @@ jobs:
     strategy:
       matrix:
         os:
-          - ubuntu
-          - macos
+          - ubuntu-latest
+          - macos-latest
 name: build-and-test
 on:
   pull_request: null
