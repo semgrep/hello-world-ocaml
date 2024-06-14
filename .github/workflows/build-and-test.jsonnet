@@ -72,11 +72,14 @@ local job = lib.os_matrix(oss=['ubuntu-latest', 'macos-latest', 'windows-latest'
     {
       name: 'Build',
       run: |||
+          which make
           export PATH="${CYGWIN_ROOT_BIN}:${PATH}"
+          which make
           opam env
           eval $(opam env)
           set
           export PATH="/c/mingw64/bin/make:${PATH}"
+          which make
           make
       |||,
     },
