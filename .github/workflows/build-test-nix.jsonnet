@@ -3,8 +3,9 @@ local actions = import 'libs/actions.libsonnet';
 local lib = import 'lib.libsonnet';
 
 // ----------------------------------------------------------------------------
-// The Workflow
+// The Job
 // ----------------------------------------------------------------------------
+
 local job = lib.os_matrix(
   oss=['ubuntu-latest', 'macos-latest'],
   steps=[
@@ -26,6 +27,10 @@ local job = lib.os_matrix(
         run: "make nix-check-verbose"
     }
 ]);
+
+// ----------------------------------------------------------------------------
+// The Workflow
+// ----------------------------------------------------------------------------
 {
   name: 'build-test-nix',
   on: lib.on_classic,
