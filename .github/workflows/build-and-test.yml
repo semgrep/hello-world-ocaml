@@ -21,14 +21,14 @@ jobs:
           path: _opam
       - name: Debugging the environment
         run: |
-          echo native env
+          echo 'native env'
           env
-          echo env under make
+          echo 'env under make'
           make show_env
           which make
           make --version
           opam --version
-          ocamlc -v
+          # ocamlc -v
       - name: Install dependencies
         run: |
           make update

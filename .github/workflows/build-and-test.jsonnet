@@ -24,15 +24,18 @@ local job = lib.os_matrix(steps=
     ),
     {
       name: 'Debugging the environment',
+      // - ocamlc is commented because it's available only under opam,
+      //   so one needs eval $(opam env) to make it accessible
+      // - opam is commented because ???
       run: |||
-        echo native env
+        echo 'native env'
         env
-        echo env under make
+        echo 'env under make'
         make show_env
         which make
         make --version
         opam --version
-        ocamlc -v
+        # ocamlc -v
       |||,
     },
     {
