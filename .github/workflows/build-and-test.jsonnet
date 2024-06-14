@@ -6,7 +6,7 @@ local opam_switch = '4.14.0';
 // The job
 // ----------------------------------------------------------------------------
 // oses in the matrix are: ubuntu-latest, macos-latest, and windows-latest
-local job = lib.os_matrix(oss=['ubuntu-latest', 'macos-latest'], steps=
+local job = lib.os_matrix(oss=['ubuntu-latest', 'macos-latest', 'windows-latest'], steps=
   [
     lib.checkout_step,
     // this must be done after the checkout as opam installs itself
@@ -28,12 +28,15 @@ local job = lib.os_matrix(oss=['ubuntu-latest', 'macos-latest'], steps=
       //   so one needs eval $(opam env) to make it accessible
       // - opam is commented because ???
       run: |||
-        echo 'native env'
+        echo '-- native env --'
         env
-        echo 'env under make'
+        echo '-- env under make --'
         make show_env
+        echo '-- which make --'
         which make
+        echo '-- make --version --'
         make --version
+        echo '-- opam --version --'
         opam --version
         # ocamlc -v
       |||,
