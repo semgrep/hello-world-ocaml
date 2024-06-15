@@ -93,3 +93,6 @@ merge:
 # to help debug PATH and other env vars issues in different OSes
 show_env:
 	env
+
+exec_script:
+	./scripts/simple_script.sh
