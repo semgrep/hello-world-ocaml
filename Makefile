@@ -16,6 +16,7 @@ clean:
 ###############################################################################
 # Install targets
 ###############################################################################
+
 install:
 	dune install
 
@@ -30,6 +31,7 @@ test:
 ###############################################################################
 # Dependencies
 ###############################################################################
+
 # create a switch with only the dependencies in _opam
 # See: https://ocaml.org/docs/opam-switch-introduction#local-switches
 setup:
@@ -79,6 +81,14 @@ utop:
 
 doc:
 	dune build @doc
+
+pr:
+	git push origin `git rev-parse --abbrev-ref HEAD`
+	hub pull-request -b main
+push:
+	git push origin `git rev-parse --abbrev-ref HEAD`
+merge:
+	A=`git rev-parse --abbrev-ref HEAD` && git checkout main && git pull && git branch -D $$A
 
 # to help debug PATH and other env vars issues in different OSes
 show_env:
