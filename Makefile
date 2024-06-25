@@ -41,6 +41,9 @@ setup:
 update:
 	opam install . --deps-only -t -d -y
 
+hello-world.opam.locked: hello-world.opam
+	opam lock ./hello-world.opam
+
 ###############################################################################
 # Nix targets
 ###############################################################################
