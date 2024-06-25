@@ -3,7 +3,6 @@
 # https://shopify.engineering/what-is-nix,
 # https://nix.dev/tutorials/first-steps/declarative-shell and
 # https://nix.dev/tutorials/nix-language for more info on Nix.
-
 # alt: flake.nix, which handles more things, but is also more complicated
 
 let
@@ -15,7 +14,9 @@ let
 
 # Note that running commands under this shell will not be isolated; you can
 # still modify files outside the repo. In fact, this file is simpler than
-# flake.nix because we still rely on opam to install dependencies (in ./_opam/).
+# flake.nix because we rely on opam to install dependencies (in _opamroot/),
+# not nix. This is IMHO a best-of-both world approach: use nix for external
+# deps and opam for OCaml deps.
 pkgs.mkShell {
    packages = with pkgs; [
 
@@ -48,13 +49,15 @@ pkgs.mkShell {
        ## when running with --pure
        ## -n to answer no to questions such as 'modify ~/.bash_profile?'
        opam init --disable-sandboxing -n
-       #eval $(opam env --switch=default)
-       ##TODO? use .opam.locked for more reproducible build?
+
+       # Note that the 'opam install' part is now done outside
+       # the shellHook in ./configure
        #alt: opam install --deps-only ./hello-world.opam -y
        # but does not work when executed inside a shellHook, weird;
        # I get compilation errors when installing dune
        #alt: opam switch create ./ --deps-only -y
        # to create in a _opam but seems redundant with _opamroot
+       # and I also get compilation errors when installing dune
     fi
     eval $(opam env)
   '';
