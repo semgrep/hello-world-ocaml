@@ -1,5 +1,5 @@
 {
-  description = "A simple example of an OCaml  project";
+  description = "A simple example of an OCaml project";
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";

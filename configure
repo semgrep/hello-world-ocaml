@@ -1,0 +1,4 @@
+#!/bin/sh
+
+opam install --deps-only ./hello-world.opam -y
+
