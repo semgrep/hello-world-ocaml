@@ -11,7 +11,7 @@
  (authors "Yoann Padioleau <pad@semgrep.com>" "Austin Theriault <austin@semgrep.com>")
  (maintainers "Yoann Padioleau <pad@semgrep.com>" "Austin Theriault <austin@semgrep.com>")
  (depends
-  ; DO NOT declare dune or odoc as dependencies, dune will automatically add them
+  ; DO NOT declare dune/odoc as dependencies, dune will automatically add them
   (ocaml (>= 4.14.0))
   atdgen
   (yojson (>= 2.0.0))

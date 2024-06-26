@@ -1,8 +1,10 @@
-# build directory
+# dune build directory
 /_build/
 
-# opam switch
-_opam
+# opam local switch
+/_opam/
+# opam local init
+/_opamroot/
 
 # nix
 result
