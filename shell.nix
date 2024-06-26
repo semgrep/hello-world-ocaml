@@ -1,22 +1,22 @@
 # Run 'nix-shell --pure' from the root of the project to get a dev environment
-# ready to compile, test, and run hello-world. See https://nixos.org/,
-# https://shopify.engineering/what-is-nix,
+# ready to compile/test/run hello-world from Linux or macOS, on amd64 or arm64.
+# See https://nixos.org/, https://shopify.engineering/what-is-nix,
 # https://nix.dev/tutorials/first-steps/declarative-shell and
 # https://nix.dev/tutorials/nix-language for more info on Nix.
 # alt: flake.nix, which handles more things, but is also more complicated
 
 let
    # fetch a specific nixos version for better reproducibility
-   # note that 23.11 was failing on my arm64 macos hence the use of 24.05
+   # note that 23.11 was failing on my arm64 macOS hence the use of 24.05
    nixpkgs = fetchTarball "https://github.com/NixOS/nixpkgs/tarball/nixos-24.05";
    pkgs = import nixpkgs { config = {}; overlays = []; };
  in
 
 # Note that running commands under this shell will not be isolated; you can
 # still modify files outside the repo. In fact, this file is simpler than
-# flake.nix because we rely on opam to install dependencies (in _opamroot/),
-# not nix. This is IMHO a best-of-both world approach: use nix for external
-# deps and opam for OCaml deps.
+# flake.nix because we rely on Opam to install dependencies (in _opamroot/),
+# not Nix. This is IMHO a best-of-both world approach: use Nix for portable
+# and reproducible external deps and Opam for the familiar OCaml deps.
 pkgs.mkShell {
    packages = with pkgs; [
 
@@ -36,7 +36,7 @@ pkgs.mkShell {
      # - gnumake bash
      # - binutils gcc/clang glibc linux-headers gnu-config update-autotools
      # - coreutils findutils diffutils file gnugrep gnused
-     # - gnutar gzip bzip2 unzip xz zlib zstd curl
+     # - gnutar gzip bzip2 unzip xz brotli zlib zstd curl
      # - not really needed but here: ed gawk patch patchelf
    ];
 
@@ -47,8 +47,10 @@ pkgs.mkShell {
     then
        ## --disable-sandboxing because can't find macos sandbox-exec
        ## when running with --pure
+       ## --no-depexts because can't find pacman or brew when running
+       ## with --pure
        ## -n to answer no to questions such as 'modify ~/.bash_profile?'
-       opam init --disable-sandboxing -n
+       opam init --disable-sandboxing --no-depexts -n
 
        # Note that the 'opam install' part is now done outside
        # the shellHook in ./configure

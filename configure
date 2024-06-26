@@ -8,5 +8,5 @@
 # - check the ocaml switch is a good version
 # - check external deps are installed (e.g., pcre)
 
-opam install --deps-only ./hello-world.opam.locked -y
+opam install --no-depexts --deps-only ./hello-world.opam.locked -y
 

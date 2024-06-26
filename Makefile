@@ -41,8 +41,15 @@ setup:
 update:
 	opam install . --deps-only -t -d -y
 
+# We remove the host-xxx packages because they would prevent to use the lock
+# file on different platforms (e.g., Linux vs macOS and amd64 vs arm64).
+#ugly: unfortunately there is no --no-depexts option to 'opam lock',
+# so to run this command you must be in an impure nix-shell so that opam can
+# check the presence of depext installer such as `pacman` in the PATH
 hello-world.opam.locked: hello-world.opam
 	opam lock ./hello-world.opam
+	sed -i -e 's/.*host-arch.*//' $@
+	sed -i -e 's/.*host-system.*//' $@
 
 ###############################################################################
 # Nix targets
