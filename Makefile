@@ -1,15 +1,20 @@
 ###############################################################################
+# Platform config
+###############################################################################
+
+ifeq ($(shell uname -o),Cygwin)
+  EXE = .exe
+endif
+
+###############################################################################
 # Build and clean targets
 ###############################################################################
 
 # First (and default) target
 default: all
 
-#alt: could use `dune build _build/install/default/bin/hello` instead
-# which would be faster on a big repo with many files
 all:
 	dune build
-
 clean:
 	dune clean
 
@@ -55,26 +60,27 @@ hello-world.opam.locked: hello-world.opam
 # Nix targets
 ###############################################################################
 
+# This uses shell.nix
+shell:
+	nix-shell --pure
+
+# This uses flake.nix
 # The finger stuff here is weird but it's so we can get the user shell and run
 # it in the nix shell. I.e. /usr/bin/zsh or /usr/bin/fish
 # It's really weird because by default makefile overrides $SHELL so this is the
 # only way to get it
-shell:
+shell2:
 	$(eval USER_SHELL := $(shell finger ${USER} | grep 'Shell:*' | cut -f3 -d ":"))
 	nix develop -c $(USER_SHELL)
 
 nix-build:
 	nix build
-
 nix-run:
 	nix run
-
 nix-fmt:
 	nix fmt
-
 nix-check: nix-check-flake
 	nix flake check
-
 # verbose check for CI
 nix-check-verbose:
 	nix flake check -L
@@ -83,12 +89,14 @@ nix-check-verbose:
 # Developer targets
 ###############################################################################
 
+# on big repo this can be faster than dune build which will build everything
+lite:
+	dune build _build/install/default/bin/hello-world$(EXE)
+
 format:
 	dune fmt
-
 utop:
 	dune utop
-
 doc:
 	dune build @doc
 
