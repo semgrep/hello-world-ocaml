@@ -4,11 +4,11 @@
  (wrapped false)
  (inline_tests)
  (libraries
+    fmt fmt.tty
     ANSITerminal
     ocolor
+    spectrum
     ;lambda-term
-    ;ocaml-spectrum
-
  )
  (preprocess
   (pps ppx_inline_test)))
