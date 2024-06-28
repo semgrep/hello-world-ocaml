@@ -2,6 +2,9 @@
  (name main)
  (libraries
     ANSITerminal
+    ocolor
+    ;lambda-term
+
     hello-world.lib
   ))
 
