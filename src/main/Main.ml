@@ -2,6 +2,10 @@ module AT = ANSITerminal
 
 let () =
   print_endline Msg.greeting;
+  (* Using raw escape code, from chatGPT *)
+  let red_text = "\x1b[31mHello, World!\x1b[0m (using raw escape code)" in
+  Printf.printf "%s\n" red_text;
+
   (* This actually does not work on Windows (and known to not work).
    * Does not work neither in cygwin nor powershell.
    * From the doc: https://chris00.github.io/ANSITerminal/doc/ANSITerminal/ANSITerminal/index.html
@@ -21,6 +25,10 @@ let () =
    Hello World (Ocolor_format)
   |};
   Ocolor_printf.printf "No color (Ocolor_printf)\n";
+
+  (* alt: use lambda-term library, which is used in utop, but require
+   * the use of lwt in its API, even for simple things.
+   *)
   ()
                         
 
