@@ -33,7 +33,7 @@ let test_terminal_libs () =
   let red_text = "\x1b[31mHello, World!\x1b[0m (using raw escape code)" in
   Printf.printf "%s\n" red_text;
 
-  Fmt_tty.setup_std_outputs ();
+  Fmt_tty.setup_std_outputs ~style_renderer:`Ansi_tty ();
   let red_bold_formatter = Fmt.(styled `Bold (styled `Red string)) in
   Fmt.pr "%a (using Fmt styled)\n" red_bold_formatter "Hello, World!";
   Format.print_flush ();
