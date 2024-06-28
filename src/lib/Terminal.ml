@@ -1,9 +1,12 @@
 (* There are many kinds of Consoles a.k.a Terminals.
+ *
  * Under Linux: xterm, rxvt, Gnome Terminal, ... and the raw Linux ttys.
  * They all understand ANSI escape sequences (e.g., ANSI colors).
  * They are ANSI compliant.
+ *
  * Under macOS: the default terminal, iTerm, ...
  * also ANSI compliant.
+ *
  * Under Windows:
  *  - Command Prompt (available by default)
  *  - Windows Powershell (by default)
@@ -21,28 +24,31 @@
  *      the Command Prompt and Windows Powershell! In that case it does not
  *      rely on ANSI escape sequence but special system calls to Windows.
  *      It's the only library with lambda-term that can do that.
- *      Also it's pretty simple to use with pretty small API.
+ *      Also it's pretty simple to use with a pretty small API.
+ *      It can also handle cursors and do effect like spinners (but this might
+ *      not work under windows actually).
  *    * cons: you can't use ANSITerminal.sprintf; only the printf variant
  *      handle windows (because it does not rely on escape code in the
- *      string but special calls). If you use ANSITerminal.sprintf, then
- *      it will not even work in the Windows Terminal.
+ *      string but special calls). The sprintf will not even work in the
+ *      Windows Terminal.
  *  - Fmt
  *    * pro: powerful combinators, support style and colors
  *    * cons: can't use colors with Fmt.str, and complicated API (formatters)
  *      with lots of use of "%a"
- *  - ocolor
+ *  - ocolor (ocolor_format and ocolor_printf)
  *    * pro: can use color tags as in @{<green>hello}
  *    * cons: does not seem to work consistently, and has weird behavior
  *      when combined with spectrum
+ *  - ocaml-spectrum
+ *    * pro: advanced coloring
+ *    * cons: seems to have weird behavior when combined with ocolor_format
  *  - lambda-term
  *    * pro: used by utop, powerful library not just for colors
  *      but for ncurses like interactions, and it can handle basic terminals
  *      in Windows (as shown by utop)
  *    * cons: require use of lwt even for basic terminal output
- *  - ocaml-spectrum
- *    * pro: advanced coloring
- *    * cons: seems to have weird behavior when combined with ocolor_format
- * You can also write the ANSI codes yourself in a string.
+ * You can also write the ANSI escape codes yourself in a string (this is
+ * what Testo is doing in OSS/libs/testo/util/Style.ml).
  *)
 
 let test_terminal_libs () =
