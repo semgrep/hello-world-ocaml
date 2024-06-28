@@ -3,5 +3,8 @@
  (name hello_lib)
  (wrapped false)
  (inline_tests)
+ (libraries
+    ANSITerminal
+ )
  (preprocess
   (pps ppx_inline_test)))
