@@ -1,8 +1,26 @@
 module AT = ANSITerminal
 
+(* There are many kind of "terminals".
+ * Under Unix: xterm, rxvt, Gnome Terminal, ... and the raw Linux tty
+ * but they are all ANSI sequence compliant.
+ * Under macOS: default terminal, iTerm, ...
+ * also compliant.
+ * Under Windows:
+ *  - Command prompt (by default)
+ *  - basic Windows Powershell (by default)
+ *  - Console host (ConHost.exe, also by default)
+ *  - Windows terminal (not by default!)
+ *    must be installed here https://apps.microsoft.com/detail/9n0dx20hk701?rtc=1&hl=es-es&gl=ES
+ * Only the last one is ANSI sequence compliant.
+ *)
+
 let () =
   print_endline Msg.greeting;
-  (* Using raw escape code, from chatGPT *)
+  (* Using raw escape sequences (from chatGPT). This does not work under the basic
+   * powershell but works under the Windows terminal!
+   * See https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_ansi_terminals?view=powershell-7.4
+   * 
+   *)
   let red_text = "\x1b[31mHello, World!\x1b[0m (using raw escape code)" in
   Printf.printf "%s\n" red_text;
 
