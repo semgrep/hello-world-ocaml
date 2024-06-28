@@ -5,6 +5,10 @@
  (inline_tests)
  (libraries
     ANSITerminal
+    ocolor
+    ;lambda-term
+    ;ocaml-spectrum
+
  )
  (preprocess
   (pps ppx_inline_test)))
