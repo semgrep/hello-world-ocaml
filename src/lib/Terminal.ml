@@ -1,14 +1,14 @@
-(* There are many kinds of consoles a.k.a terminals.
- * Under Unix: xterm, rxvt, Gnome Terminal, ... and the raw Linux ttys
+(* There are many kinds of Consoles a.k.a Terminals.
+ * Under Linux: xterm, rxvt, Gnome Terminal, ... and the raw Linux ttys.
  * They all understand ANSI escape sequences (e.g., ANSI colors).
  * They are ANSI compliant.
- * Under macOS: default terminal, iTerm, ...
+ * Under macOS: the default terminal, iTerm, ...
  * also ANSI compliant.
  * Under Windows:
- *  - Command prompt (available by default)
+ *  - Command Prompt (available by default)
  *  - Windows Powershell (by default)
- *  - Console host conhost.exe (by default)
- *  - Windows terminal (not by default!), must be installed here
+ *  - Console Host conhost.exe (by default)
+ *  - Windows Terminal, a.k.a Terminal (not by default!), must be installed here
  *    https://apps.microsoft.com/detail/9n0dx20hk701?rtc=1&hl=es-es&gl=ES
  *  - Visual studio code integrated terminal (part of VScode)
  *  - Cygwin terminal (not by default, and different world)
@@ -16,26 +16,54 @@
  * See https://stackoverflow.com/questions/51680709/colored-text-output-in-powershell-console-using-ansi-vt100-codes
  *
  * There are also many OCaml libraries to handle formatting in the terminal:
- *  - ANSITerminal
+ *  - ANSITerminal:
+ *    * pro: can display colors on Windows in the basic terminals such as
+ *      the Command Prompt and Windows Powershell! In that case it does not
+ *      rely on ANSI escape sequence but special system calls to Windows.
+ *      It's the only library with lambda-term that can do that.
+ *      Also it's pretty simple to use with pretty small API.
+ *    * cons: you can't use ANSITerminal.sprintf; only the printf variant
+ *      handle windows (because it does not rely on escape code in the
+ *      string but special calls). If you use ANSITerminal.sprintf, then
+ *      it will not even work in the Windows Terminal.
  *  - Fmt
+ *    * pro: powerful combinators, support style and colors
+ *    * cons: can't use colors with Fmt.str, and complicated API (formatters)
+ *      with lots of use of "%a"
  *  - ocolor
+ *    * pro: can use color tags as in @{<green>hello}
+ *    * cons: does not seem to work consistently, and has weird behavior
+ *      when combined with spectrum
  *  - lambda-term
+ *    * pro: used by utop, powerful library not just for colors
+ *      but for ncurses like interactions, and it can handle basic terminals
+ *      in Windows (as shown by utop)
+ *    * cons: require use of lwt even for basic terminal output
  *  - ocaml-spectrum
+ *    * pro: advanced coloring
+ *    * cons: seems to have weird behavior when combined with ocolor_format
  * You can also write the ANSI codes yourself in a string.
  *)
 
 let test_terminal_libs () =
   (* Using raw escape sequences (from chatGPT). This does not work under the basic
-   * powershell but works under the Windows terminal!
+   * Windows Powershell but it works under the Windows Terminal!
    * See https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_ansi_terminals?view=powershell-7.4
    * alt: use \027[
    *)
   let red_text = "\x1b[31mHello, World!\x1b[0m (using raw escape code)" in
   Printf.printf "%s\n" red_text;
 
+  (* force the use of Ansi_tty below, otherwise setup_std_outputs rely on defaults
+   * which rely on $TERM which is not set in the Windows Terminal.
+   *)
   Fmt_tty.setup_std_outputs ~style_renderer:`Ansi_tty ();
   let red_bold_formatter = Fmt.(styled `Bold (styled `Red string)) in
   Fmt.pr "%a (using Fmt styled)\n" red_bold_formatter "Hello, World!";
+  Format.print_flush ();
+  (* using sprintf style (does not print color actually) *)
+  let str = Fmt.str "%a (using Fmt str)" red_bold_formatter "Hello, World!" in
+  Fmt.pr "%s\n" str;
   Format.print_flush ();
 
   (* This actually does not work on Windows (and known to not work).
