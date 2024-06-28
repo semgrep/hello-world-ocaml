@@ -3,5 +3,12 @@
  (name hello_lib)
  (wrapped false)
  (inline_tests)
+ (libraries
+    fmt fmt.tty
+    ANSITerminal
+    ocolor
+    spectrum
+    ;lambda-term
+ )
  (preprocess
   (pps ppx_inline_test)))

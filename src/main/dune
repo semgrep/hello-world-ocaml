@@ -1,6 +1,8 @@
 (executable
  (name main)
- (libraries hello-world.lib))
+ (libraries
+    hello-world.lib
+  ))
 
 (install
  (package hello-world)
