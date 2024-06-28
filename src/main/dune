@@ -1,6 +1,9 @@
 (executable
  (name main)
- (libraries hello-world.lib))
+ (libraries
+    ANSITerminal
+    hello-world.lib
+  ))
 
 (install
  (package hello-world)
